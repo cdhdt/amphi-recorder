@@ -1,4 +1,5 @@
 // Added for amphi (2026) — profil d'encodage pour la parole en champ lointain
+@file:Suppress("MagicNumber")
 package org.fossify.voicerecorder.amphi
 
 import org.fossify.voicerecorder.helpers.EXTENSION_M4A
@@ -18,5 +19,5 @@ fun farFieldProfile(sdkInt: Int): CaptureProfile =
     if (sdkInt >= 29) {
         CaptureProfile(EXTENSION_OGG, samplingRate = 16000, bitrate = 32000)
     } else {
-        CaptureProfile(EXTENSION_M4A, samplingRate = 16000, bitrate = 64000)
+        CaptureProfile(EXTENSION_M4A, samplingRate = 16000, bitrate = 31000)
     }

@@ -1,3 +1,4 @@
+// Added for amphi (2026) — tests du profil d'encodage champ lointain
 package org.fossify.voicerecorder.amphi
 
 import org.fossify.voicerecorder.helpers.EXTENSION_M4A
@@ -15,11 +16,11 @@ class CaptureProfileTest {
     }
 
     @Test
-    fun `sous API 29 retombe sur M4A 16kHz 64kbps`() {
+    fun `sous API 29 retombe sur M4A 16kHz 31kbps`() {
         val p = farFieldProfile(sdkInt = 28)
         assertEquals(EXTENSION_M4A, p.extension)
         assertEquals(16000, p.samplingRate)
-        assertEquals(64000, p.bitrate)
+        assertEquals(31000, p.bitrate)
     }
 
     @Test

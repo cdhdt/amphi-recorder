@@ -1,3 +1,4 @@
+// Added for amphi (2026) — tests de la resolution de source micro
 package org.fossify.voicerecorder.amphi
 
 import org.junit.Assert.assertEquals
