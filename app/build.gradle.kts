@@ -147,4 +147,5 @@ dependencies {
     implementation(libs.tandroidlame)
     implementation(libs.autofittextview)
     detektPlugins(libs.compose.detekt)
+    testImplementation("junit:junit:4.13.2")
 }
