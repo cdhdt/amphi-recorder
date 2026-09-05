@@ -1,3 +1,4 @@
+// Modified for amphi (2026) — application des defauts de capture champ lointain au premier lancement
 package org.fossify.voicerecorder.activities
 
 import android.app.Activity
@@ -32,6 +33,7 @@ import org.fossify.voicerecorder.databinding.ActivityMainBinding
 import org.fossify.voicerecorder.extensions.config
 import org.fossify.voicerecorder.extensions.deleteExpiredTrashedRecordings
 import org.fossify.voicerecorder.extensions.ensureStoragePermission
+import org.fossify.voicerecorder.extensions.unprocessedAudioSupported
 import org.fossify.voicerecorder.helpers.STOP_AMPLITUDE_UPDATE
 import org.fossify.voicerecorder.models.Events
 import org.fossify.voicerecorder.services.RecorderService
@@ -49,6 +51,8 @@ class MainActivity : SimpleActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Added for amphi (2026) — applique une fois les defauts de capture champ lointain
+        config.applyAmphiDefaultsOnce(unprocessedAudioSupported())
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         appLaunched(BuildConfig.APPLICATION_ID)

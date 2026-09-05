@@ -1,3 +1,4 @@
+// Modified for amphi (2026) — capture mono pour la parole en champ lointain
 package org.fossify.voicerecorder.recorder
 
 import android.annotation.SuppressLint
@@ -8,11 +9,13 @@ import org.fossify.voicerecorder.extensions.config
 
 class MediaRecorderWrapper(val context: Context) : Recorder {
 
+    // Modified for amphi (2026) — capture mono pour la parole en champ lointain
     @Suppress("DEPRECATION")
     private var recorder = MediaRecorder().apply {
         setAudioSource(context.config.microphoneMode)
         setOutputFormat(context.config.getOutputFormat())
         setAudioEncoder(context.config.getAudioEncoder())
+        setAudioChannels(org.fossify.voicerecorder.amphi.AMPHI_CHANNELS)
         setAudioEncodingBitRate(context.config.bitrate)
         setAudioSamplingRate(context.config.samplingRate)
     }

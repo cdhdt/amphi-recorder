@@ -1,3 +1,4 @@
+// Modified for amphi (2026) — application des defauts de capture champ lointain au premier lancement
 package org.fossify.voicerecorder.helpers
 
 import android.annotation.SuppressLint
@@ -25,6 +26,17 @@ class Config(context: Context) : BaseConfig(context) {
     var microphoneMode: Int
         get() = prefs.getInt(MICROPHONE_MODE, MediaRecorder.AudioSource.DEFAULT)
         set(audioSource) = prefs.edit { putInt(MICROPHONE_MODE, audioSource) }
+
+    // Added for amphi (2026) — applique une fois les defauts de capture champ lointain
+    fun applyAmphiDefaultsOnce(unprocessedSupported: Boolean) {
+        if (prefs.getBoolean("amphi_defaults_applied", false)) return
+        val p = org.fossify.voicerecorder.amphi.farFieldProfile(android.os.Build.VERSION.SDK_INT)
+        extension = p.extension
+        samplingRate = p.samplingRate
+        bitrate = p.bitrate
+        microphoneMode = org.fossify.voicerecorder.amphi.AudioSourceResolver.resolve(unprocessedSupported)
+        prefs.edit().putBoolean("amphi_defaults_applied", true).apply()
+    }
 
     fun getMicrophoneModeText(mode: Int) = context.getString(
         when (mode) {
