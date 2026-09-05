@@ -6,16 +6,16 @@ import org.junit.Test
 
 class AudioSourceResolverTest {
     // Valeurs des constantes MediaRecorder.AudioSource, inlinees a la compilation
-    private val UNPROCESSED = 9
-    private val VOICE_RECOGNITION = 6
+    private val unprocessed = 9
+    private val voiceRecognition = 6
 
     @Test
     fun `choisit UNPROCESSED quand l'appareil le supporte`() {
-        assertEquals(UNPROCESSED, AudioSourceResolver.resolve(unprocessedSupported = true))
+        assertEquals(unprocessed, AudioSourceResolver.resolve(unprocessedSupported = true))
     }
 
     @Test
     fun `retombe sur VOICE_RECOGNITION quand non supporte`() {
-        assertEquals(VOICE_RECOGNITION, AudioSourceResolver.resolve(unprocessedSupported = false))
+        assertEquals(voiceRecognition, AudioSourceResolver.resolve(unprocessedSupported = false))
     }
 }
