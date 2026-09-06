@@ -29,13 +29,13 @@ class Config(context: Context) : BaseConfig(context) {
 
     // Added for amphi (2026) — applique une fois les defauts de capture champ lointain
     fun applyAmphiDefaultsOnce(unprocessedSupported: Boolean) {
-        if (prefs.getBoolean("amphi_defaults_applied", false)) return
+        if (prefs.getBoolean(AMPHI_DEFAULTS_APPLIED, false)) return
         val p = org.fossify.voicerecorder.amphi.farFieldProfile(android.os.Build.VERSION.SDK_INT)
         extension = p.extension
         samplingRate = p.samplingRate
         bitrate = p.bitrate
         microphoneMode = org.fossify.voicerecorder.amphi.AudioSourceResolver.resolve(unprocessedSupported)
-        prefs.edit().putBoolean("amphi_defaults_applied", true).apply()
+        prefs.edit().putBoolean(AMPHI_DEFAULTS_APPLIED, true).apply()
     }
 
     fun getMicrophoneModeText(mode: Int) = context.getString(

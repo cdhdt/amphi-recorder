@@ -31,6 +31,7 @@ import org.fossify.voicerecorder.R
 import org.fossify.voicerecorder.activities.SplashActivity
 import org.fossify.voicerecorder.extensions.config
 import org.fossify.voicerecorder.extensions.getFormattedFilename
+import org.fossify.voicerecorder.extensions.unprocessedAudioSupported
 import org.fossify.voicerecorder.extensions.updateWidgets
 import org.fossify.voicerecorder.helpers.CANCEL_RECORDING
 import org.fossify.voicerecorder.helpers.EXTENSION_MP3
@@ -101,6 +102,11 @@ class RecorderService : Service() {
         if (status == RECORDING_RUNNING) {
             return
         }
+
+        // Added for amphi (2026) — chemin widget/BackgroundRecordActivity : n'instancie jamais
+        // MainActivity, donc les defauts champ lointain doivent aussi etre appliques ici, avant
+        // toute lecture de config.getExtension() ou instanciation du Recorder.
+        config.applyAmphiDefaultsOnce(unprocessedAudioSupported())
 
         val defaultFolder = File(config.saveRecordingsFolder)
         if (!defaultFolder.exists()) {
