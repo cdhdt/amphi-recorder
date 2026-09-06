@@ -32,7 +32,9 @@ fun writeSidecar(context: android.content.Context, recordingUri: android.net.Uri
     val json = meta.toJson()
     val name = recordingUri.lastPathSegment?.substringAfterLast('/')?.substringBeforeLast('.')
         ?: "recording"
-    // Ecrit dans le stockage prive de l'app : simple, sans permission, suffisant pour le banc WER.
-    val dir = java.io.File(context.filesDir, "capture-meta").apply { mkdirs() }
+    // Ecrit dans le stockage externe prive de l'app (accessible via MTP / adb pull sans
+    // permission depuis l'API 19), avec repli sur le stockage interne si indisponible.
+    val base = context.getExternalFilesDir(null) ?: context.filesDir
+    val dir = java.io.File(base, "capture-meta").apply { mkdirs() }
     java.io.File(dir, "$name.json").writeText(json)
 }
