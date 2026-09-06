@@ -1,3 +1,4 @@
+// Modified for amphi (2026) — maintien CPU (WakeLock) pour l'enregistrement long ecran eteint
 package org.fossify.voicerecorder.services
 
 import android.annotation.SuppressLint
@@ -65,6 +66,9 @@ class RecorderService : Service() {
     private var durationTimer = Timer()
     private var amplitudeTimer = Timer()
     private var recorder: Recorder? = null
+
+    // Added for amphi (2026) — maintien CPU pour l'enregistrement long ecran eteint
+    private var wakeLock: android.os.PowerManager.WakeLock? = null
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -139,6 +143,14 @@ class RecorderService : Service() {
             duration = 0
             status = RECORDING_RUNNING
             broadcastRecorderInfo()
+
+            // Added for amphi (2026)
+            val pm = getSystemService(POWER_SERVICE) as android.os.PowerManager
+            wakeLock = pm.newWakeLock(
+                android.os.PowerManager.PARTIAL_WAKE_LOCK,
+                "amphi:recording"
+            ).also { it.setReferenceCounted(false); it.acquire() }
+
             startForeground(RECORDER_RUNNING_NOTIF_ID, showNotification())
 
             durationTimer = Timer()
@@ -155,6 +167,10 @@ class RecorderService : Service() {
         durationTimer.cancel()
         amplitudeTimer.cancel()
         status = RECORDING_STOPPED
+
+        // Added for amphi (2026)
+        wakeLock?.let { if (it.isHeld) it.release() }
+        wakeLock = null
 
         recorder?.apply {
             try {
@@ -184,6 +200,10 @@ class RecorderService : Service() {
         durationTimer.cancel()
         amplitudeTimer.cancel()
         status = RECORDING_STOPPED
+
+        // Added for amphi (2026)
+        wakeLock?.let { if (it.isHeld) it.release() }
+        wakeLock = null
 
         recorder?.apply {
             try {
