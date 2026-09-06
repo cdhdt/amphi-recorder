@@ -19,5 +19,5 @@ fun farFieldProfile(sdkInt: Int): CaptureProfile =
     if (sdkInt >= 29) {
         CaptureProfile(EXTENSION_OGG, samplingRate = 16000, bitrate = 32000)
     } else {
-        CaptureProfile(EXTENSION_M4A, samplingRate = 16000, bitrate = 31000)
+        CaptureProfile(EXTENSION_M4A, samplingRate = 16000, bitrate = 28000)
     }

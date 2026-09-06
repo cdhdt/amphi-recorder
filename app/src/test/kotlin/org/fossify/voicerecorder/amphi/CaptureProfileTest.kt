@@ -16,11 +16,11 @@ class CaptureProfileTest {
     }
 
     @Test
-    fun `sous API 29 retombe sur M4A 16kHz 31kbps`() {
+    fun `sous API 29 retombe sur M4A 16kHz 28kbps`() {
         val p = farFieldProfile(sdkInt = 28)
         assertEquals(EXTENSION_M4A, p.extension)
         assertEquals(16000, p.samplingRate)
-        assertEquals(31000, p.bitrate)
+        assertEquals(28000, p.bitrate)
     }
 
     @Test
