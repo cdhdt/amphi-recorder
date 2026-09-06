@@ -279,6 +279,22 @@ class RecorderService : Service() {
     private fun recordingSavedSuccessfully(savedUri: Uri) {
         toast(R.string.recording_saved_successfully)
         EventBus.getDefault().post(Events.RecordingSaved(savedUri))
+
+        // Added for amphi (2026) — sidecar de metadonnees de capture
+        try {
+            val meta = org.fossify.voicerecorder.amphi.CaptureMetadata(
+                effectiveSource = config.microphoneMode,
+                extension = config.extension,
+                samplingRate = config.samplingRate,
+                bitrate = config.bitrate,
+                channels = org.fossify.voicerecorder.amphi.AMPHI_CHANNELS,
+                deviceModel = "${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL}",
+                appVersion = org.fossify.voicerecorder.BuildConfig.VERSION_NAME,
+            )
+            org.fossify.voicerecorder.amphi.writeSidecar(this, savedUri, meta)
+        } catch (e: Exception) {
+            android.util.Log.w("amphi", "sidecar metadata failed", e)
+        }
     }
 
     private fun getDurationUpdateTask() = object : TimerTask() {
