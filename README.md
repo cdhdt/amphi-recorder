@@ -8,7 +8,7 @@ Ce dépôt ne couvre pour l'instant que la capture : sélection automatique d'un
 
 **amphi** est un fork de [Fossify Voice Recorder](https://github.com/FossifyOrg/Voice-Recorder), publié sous licence **GPL-3.0**. Un grand merci et tout le crédit à l'équipe Fossify et à ses contributeurs pour le travail original : ce fork ne fait que réutiliser et adapter une base solide déjà existante à un usage précis (la capture en amphithéâtre). Ce crédit n'est pas une obligation de la GPL, c'est simplement la moindre des choses envers un projet dont on reprend le travail.
 
-Ce fork est distribué, comme le projet amont, sous **GPL-3.0**. Tout binaire distribué (APK) est accompagné du code source complet correspondant — celui de ce dépôt — conformément aux termes de la licence. Le texte complet de la licence se trouve dans [`LICENSE`](LICENSE). Les en-têtes de copyright de Fossify présents dans le code ne sont ni retirés ni altérés.
+Ce fork est distribué, comme le projet amont, sous **GPL-3.0**. Tout binaire distribué (APK) est accompagné du code source complet correspondant — celui de ce dépôt — conformément aux termes de la licence. Le texte complet de la licence se trouve dans [`LICENSE`](LICENSE), conservé à l'identique. Aucune notice de licence ou de copyright du projet amont n'a été retirée ni altérée.
 
 ## Fichiers modifiés et créés par amphi
 
@@ -28,12 +28,15 @@ Conformément à la GPL-3.0 (obligation d'indiquer clairement les fichiers modif
 
 | Fichier | Objet de la modification |
 |---|---|
-| `app/build.gradle.kts` | Ajout de la dépendance de test JUnit (`junit:junit:4.13.2`) pour les tests unitaires amphi. |
+| `app/build.gradle.kts` | Ajout de la dépendance de test JUnit (`junit:junit:4.13.2`) ; suffixe `.amphi` sur l'`applicationId` du build `release`, pour ne pas entrer en collision d'installation avec l'application officielle Fossify ni porter son identité. |
 | `app/src/main/kotlin/org/fossify/voicerecorder/activities/MainActivity.kt` | Application, au premier lancement, des réglages de capture par défaut adaptés au champ lointain. |
-| `app/src/main/kotlin/org/fossify/voicerecorder/helpers/Config.kt` | Ajout de la méthode appliquant une seule fois les réglages de capture par défaut (source micro, extension, fréquence d'échantillonnage, débit). |
+| `app/src/main/kotlin/org/fossify/voicerecorder/helpers/Config.kt` | Ajout de la méthode appliquant une seule fois les réglages de capture par défaut (source micro, extension, fréquence d'échantillonnage, débit) ; utilise désormais la clé de préférence nommée en constante. |
+| `app/src/main/kotlin/org/fossify/voicerecorder/helpers/Constants.kt` | Ajout de la constante nommant la clé de préférence du drapeau d'application (idempotente) des défauts de capture champ lointain. |
 | `app/src/main/kotlin/org/fossify/voicerecorder/recorder/MediaRecorderWrapper.kt` | Forçage de la capture en mono, adapté à la parole en champ lointain. |
-| `app/src/main/kotlin/org/fossify/voicerecorder/services/RecorderService.kt` | Acquisition d'un `PARTIAL_WAKE_LOCK` pendant l'enregistrement, pour tenir sur un cours long avec l'écran éteint. |
+| `app/src/main/kotlin/org/fossify/voicerecorder/services/RecorderService.kt` | Acquisition d'un `PARTIAL_WAKE_LOCK` pendant l'enregistrement, pour tenir sur un cours long avec l'écran éteint ; applique aussi les défauts de capture champ lointain sur le chemin widget/reprise en arrière-plan, qui n'instancie jamais `MainActivity`. |
+| `app/src/debug/res/values/strings.xml` | Nom affiché de la variante `debug` (`app_launcher_name`) : « Voice Recorder_debug » → « amphi_debug » (ce source set surcharge `main` pour toute variante debug, dont `coreDebug`). |
 | `app/src/main/res/values/strings.xml` | Nom affiché de l'application (`app_launcher_name`) : « Voice Recorder » → « amphi ». |
+| `app/src/main/res/values-fr/strings.xml` | Nom affiché de l'application en français (`app_launcher_name`) : « Enregistreur vocal » → « amphi », pour que le renommage soit aussi visible sur un appareil configuré en français. |
 | `app/src/main/res/values/donottranslate.xml` | Nom interne de l'application (`app_name`) : « Fossify Voice Recorder » → « amphi ». |
 | `README.md` | Réécriture pour ce fork : présentation du projet, crédit à Fossify, conformité GPL-3.0, liste des fichiers modifiés. |
 

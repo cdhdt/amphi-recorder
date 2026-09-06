@@ -69,6 +69,7 @@ android {
             applicationIdSuffix = ".debug"
         }
         release {
+            applicationIdSuffix = ".amphi"
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
